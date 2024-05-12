@@ -7,8 +7,14 @@ body {
     font-family: "VT323", monospace;
 }
 
-body {
+body,
+.snake {
     background-color: #414141;
+}
+
+.snake {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
 }
 
 #game-board {
