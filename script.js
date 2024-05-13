@@ -9,7 +9,15 @@ const highScoreText = document.getElementById("highScore");
 const gridSize = 20;
 let snake = [{ x: 10, y: 10 }];
 let food = generateFood();
+
 let highScore = 0;
+
+if (localStorage.getItem("highScore")) {
+    highScore = localStorage.getItem("highScore");
+} else {
+    highScore = 0;
+}
+
 let direction = "right";
 let gameInterval;
 let gameSpeedDelay = 200;
@@ -164,6 +172,11 @@ function checkCollision() {
 function resetGame() {
     updateHighScore();
     stopGame();
+    snake = [{ x: 10, y: 10 }];
+    food = generateFood();
+    direction = "right";
+    gameSpeedDelay = 200;
+    updateScore();
 }
 
 function updateScore() {
@@ -182,9 +195,20 @@ function updateHighScore() {
     const currentScore = snake.length - 1;
 
     if (currentScore > highScore) {
+        localStorage.setItem("highScore", currentScore);
         highScore = currentScore;
         highScoreText.textContent = highScore.toString().padStart(3, "0");
     }
 
     highScoreText.style.display = "block";
 }
+
+function checkLocalStorage() {
+    if (highScore != 0) {
+        highScoreText.style.display = "block";
+
+        highScoreText.textContent = highScore.toString().padStart(3, "0");
+    }
+}
+
+checkLocalStorage();
