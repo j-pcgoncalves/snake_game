@@ -12,11 +12,6 @@ body,
     background-color: #414141;
 }
 
-.snake {
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
-}
-
 #game-board {
     border-radius: 100px;
     display: grid;
@@ -78,6 +73,16 @@ body,
 .game-border-3,
 #logo {
     background-color: #C4CFA3;
+}
+
+.snake {
+    border-top-right-radius: 50%;
+    border-bottom-right-radius: 50%;
+}
+
+.food {
+    background-color: #DEDEDE;
+    border: #999 5px solid;
 }
 
 #logo {
