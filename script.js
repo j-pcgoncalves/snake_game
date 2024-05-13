@@ -9,6 +9,7 @@ const highScoreText = document.getElementById("highScore");
 const gridSize = 20;
 let snake = [{ x: 10, y: 10 }];
 let food = generateFood();
+let direction = "right";
 let gameInterval;
 let gameSpeedDelay = 200;
 let gameStarted = false;
@@ -18,6 +19,7 @@ function draw() {
     board.innerHTML = "";
     drawSnake();
     drawFood();
+    updateScore();
 }
 
 function drawSnake() {
@@ -54,8 +56,41 @@ function drawFood() {
 function generateFood() {
     const x = Math.floor(Math.random() * gridSize) + 1;
     const y = Math.floor(Math.random() * gridSize) + 1;
-    
+
     return { x, y };
+}
+
+function move() {
+    const head = { ...snake[0] };
+
+    switch (direction) {
+        case "up":
+            head.y--;
+            break;
+        case "down":
+            head.y++;
+            break;
+        case "left":
+            head.x--;
+            break;
+        case "right":
+            head.x++;
+            break;
+    }
+
+    snake.unshift(head);
+
+    if (head.x === food.x && head.y === food.y) {
+        food = generateFood();
+
+        clearInterval(gameInterval);
+        gameInterval = setInterval(() => {
+            move();
+            draw();
+        }, gameSpeedDelay);
+    } else {
+        snake.pop();
+    }
 }
 
 function startGame() {
@@ -64,6 +99,7 @@ function startGame() {
     logo.style.display = "none";
 
     gameInterval = setInterval(() => {
+        move();
         draw();
     }, gameSpeedDelay);
 }
@@ -75,8 +111,26 @@ function handleKeyPress(event) {
     ) {
         startGame();
     } else {
-
+        switch (event.key) {
+            case "ArrowUp":
+                direction = "up";
+                break;
+            case "ArrowDown":
+                direction = "down";
+                break;
+            case "ArrowLeft":
+                direction = "left";
+                break;
+            case "ArrowRight":
+                direction = "right";
+                break;
+        }
     }
 }
 
 document.addEventListener("keydown", handleKeyPress);
+
+function updateScore() {
+    const currentScore = snake.length - 1;
+    score.textContent = currentScore.toString().padStart(3, "0");
+}

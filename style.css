@@ -76,8 +76,7 @@ body,
 }
 
 .snake {
-    border-top-right-radius: 50%;
-    border-bottom-right-radius: 50%;
+    border: #5A5A5A 1px dotted;
 }
 
 .food {
