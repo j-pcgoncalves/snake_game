@@ -4,6 +4,10 @@ const instructionText = document.getElementById("instruction-text");
 const logo = document.getElementById("logo");
 const score = document.getElementById("score");
 const highScoreText = document.getElementById("highScore");
+const scoreOver = document.getElementById("score-over");
+const highScoreTextOver = document.getElementById("highScore-over");
+const gameOverContainer = document.getElementById("game-over-container");
+const restartBtn = document.getElementById("restart-btn");
 
 // Define game variables
 const gridSize = 20;
@@ -172,7 +176,7 @@ function checkCollision() {
 function resetGame() {
     updateHighScore();
     stopGame();
-    snake = [{ x: 10, y: 10 }];
+    snake = [{ x: -1, y: -1 }];
     food = generateFood();
     direction = "right";
     gameSpeedDelay = 200;
@@ -185,10 +189,12 @@ function updateScore() {
 }
 
 function stopGame() {
+    const currentScore = snake.length - 1;
+
     clearInterval(gameInterval);
     gameStarted = false;
-    instructionText.style.display = "block";
-    logo.style.display = "block";
+    gameOverContainer.style.display = "flex";
+    scoreOver.textContent = currentScore.toString().padStart(3, "0");
 }
 
 function updateHighScore() {
@@ -200,6 +206,7 @@ function updateHighScore() {
         highScoreText.textContent = highScore.toString().padStart(3, "0");
     }
 
+    highScoreTextOver.textContent = highScore.toString().padStart(3, "0");
     highScoreText.style.display = "block";
 }
 
@@ -212,3 +219,12 @@ function checkLocalStorage() {
 }
 
 checkLocalStorage();
+
+function restartGame() {
+    snake = [{ x: 10, y: 10 }];
+    gameOverContainer.style.display = "none";
+
+    startGame();
+}
+
+restartBtn.addEventListener("click", restartGame);
