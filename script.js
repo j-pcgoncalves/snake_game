@@ -126,6 +126,9 @@ function handleKeyPress(event) {
         (!gameStarted && event.code === "Space") ||
         (!gameStarted && event.key === " ")
     ) {
+        snake = [{ x: 10, y: 10 }];
+        gameOverContainer.style.display = "none";
+        
         startGame();
     } else {
         switch (event.key) {
